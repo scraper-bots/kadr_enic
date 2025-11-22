@@ -66,17 +66,42 @@ print("✓ Saved: charts/01_distribution_by_country.png")
 # CHART 2: Distribution by Education Level
 # ============================================================================
 print("\nGenerating Chart 2: Distribution by Education Level...")
-plt.figure(figsize=(12, 8))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(18, 8))
+
 education_counts = df_clean['education_level'].value_counts()
 
-colors = sns.color_palette("Set3", len(education_counts))
-wedges, texts, autotexts = plt.pie(education_counts.values,
-                                     labels=education_counts.index,
+# Left: Horizontal Bar Chart
+colors_bar = sns.color_palette("viridis", len(education_counts))
+bars = ax1.barh(range(len(education_counts)), education_counts.values,
+                color=colors_bar, edgecolor='black', linewidth=1.5)
+
+ax1.set_xlabel('Number of Candidates', fontsize=13, fontweight='bold')
+ax1.set_ylabel('Education Level', fontsize=13, fontweight='bold')
+ax1.set_title('Education Level Distribution (Count)', fontsize=15, fontweight='bold', pad=15)
+ax1.set_yticks(range(len(education_counts)))
+ax1.set_yticklabels(education_counts.index, fontsize=11)
+ax1.tick_params(axis='x', labelsize=11)
+ax1.grid(axis='x', alpha=0.3, linestyle='--')
+
+# Add value labels and percentages on bars
+for i, (bar, value) in enumerate(zip(bars, education_counts.values)):
+    percentage = (value / len(df_clean)) * 100
+    ax1.text(bar.get_width() + 10, bar.get_y() + bar.get_height()/2,
+             f'{int(value)} ({percentage:.1f}%)',
+             ha='left', va='center', fontsize=11, fontweight='bold')
+
+ax1.invert_yaxis()
+
+# Right: Pie Chart with better formatting
+colors_pie = sns.color_palette("Set2", len(education_counts))
+wedges, texts, autotexts = ax2.pie(education_counts.values,
+                                     labels=None,
                                      autopct='%1.1f%%',
                                      startangle=90,
-                                     colors=colors,
+                                     colors=colors_pie,
                                      textprops={'fontsize': 11, 'fontweight': 'bold'},
-                                     explode=[0.05] * len(education_counts))
+                                     explode=[0.05] * len(education_counts),
+                                     pctdistance=0.85)
 
 # Make percentage text more visible
 for autotext in autotexts:
@@ -84,8 +109,15 @@ for autotext in autotexts:
     autotext.set_fontsize(12)
     autotext.set_fontweight('bold')
 
-plt.title('Distribution by Education Level', fontsize=16, fontweight='bold', pad=20)
-plt.axis('equal')
+ax2.set_title('Education Level Distribution (Percentage)', fontsize=15, fontweight='bold', pad=15)
+
+# Add legend outside the pie chart
+ax2.legend(wedges, education_counts.index,
+          title="Education Levels",
+          loc="center left",
+          bbox_to_anchor=(1, 0, 0.5, 1),
+          fontsize=10)
+
 plt.tight_layout()
 plt.savefig('charts/02_distribution_by_education_level.png', dpi=300, bbox_inches='tight')
 plt.close()
