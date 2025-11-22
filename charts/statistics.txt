@@ -1,0 +1,18 @@
+KADR ENIC CANDIDATES - STATISTICAL SUMMARY
+================================================================================
+
+Total Candidates: 1746
+Number of Countries: 44
+Number of Universities: 605
+Number of Specializations: 406
+
+Mean Age: 30.8 years
+Median Age: 30.0 years
+Age Range: 20 - 64 years
+
+Top 5 Countries:
+1. Türkiyə Respublikası: 803 (46.0%)
+2. Rusiya Federasiyası: 321 (18.4%)
+3. Ukrayna: 218 (12.5%)
+4. Birləşmiş Krallıq: 70 (4.0%)
+5. İtaliya Respublikası: 46 (2.6%)
